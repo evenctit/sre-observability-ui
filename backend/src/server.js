@@ -5,9 +5,16 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const architecture = require('./architecture');
+const { metricsMiddleware, metricsHandler } = require('./metrics');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 指标采集中间件: 必须注册在所有路由之前, 记录每个请求的耗时与状态码
+app.use(metricsMiddleware);
+
+// Prometheus 抓取端点: 输出 http_requests_total / http_request_duration_seconds 等指标
+app.get('/metrics', metricsHandler);
 
 // 健康检查接口 (与平台内服务约定保持一致)
 app.get('/healthz', (req, res) => {
