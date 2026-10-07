@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SRE 可观测性平台架构图 (依据 sre-observability-demo 绘制) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 1040" font-family="Microsoft YaHei, PingFang SC, Noto Sans SC, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font-size: 26px; font-weight: 700; fill: #0f172a; }
+      .subtitle { font-size: 14px; fill: #64748b; }
+      .frame-label { font-size: 13px; font-weight: 600; fill: #475569; }
+      .ns-label { font-size: 12px; font-style: italic; fill: #94a3b8; }
+      .bt { font-size: 15px; font-weight: 700; fill: #1e293b; }
+      .bl { font-size: 12px; fill: #475569; }
+      .al { font-size: 12px; fill: #334155; paint-order: stroke; stroke: #ffffff; stroke-width: 3px; }
+      .legend { font-size: 13px; fill: #475569; }
+      .edge { stroke: #334155; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+      .edge-dash { stroke: #64748b; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1520" height="1040" fill="#ffffff"/>
+
+  <!-- 标题 -->
+  <text x="760" y="40" text-anchor="middle" class="title">SRE 可观测性平台架构图</text>
+  <text x="760" y="66" text-anchor="middle" class="subtitle">Kubernetes v1.37.1 · Infrastructure as Code (sre-observability-demo)</text>
+
+  <!-- 集群边框 -->
+  <rect x="60" y="160" width="1380" height="700" rx="10" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="8 5"/>
+  <text x="80" y="182" class="frame-label">Kubernetes 集群 (v1.37.1)</text>
+
+  <!-- 用户浏览器 -->
+  <rect x="570" y="90" width="360" height="56" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+  <text x="750" y="112" text-anchor="middle" class="bt">用户浏览器</text>
+  <text x="750" y="133" text-anchor="middle" class="bl">Grafana :30300 · demo-api :30080</text>
+
+  <!-- 浏览器 -> Grafana -->
+  <line x1="750" y1="146" x2="750" y2="188" class="edge"/>
+  <text x="762" y="172" class="al">NodePort 30300</text>
+
+  <!-- Grafana -->
+  <rect x="500" y="190" width="500" height="100" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="750" y="216" text-anchor="middle" class="bt">Grafana 12.2.0 (PVC 10Gi)</text>
+  <text x="750" y="240" text-anchor="middle" class="bl">可视化与告警 · NodePort 30300 · SRE Demo 内置 4 个 Dashboard</text>
+  <text x="750" y="260" text-anchor="middle" class="bl">数据源: Prometheus / Tempo / Loki / Pyroscope / PostgreSQL</text>
+
+  <!-- Grafana -> 各后端 -->
+  <line x1="750" y1="290" x2="388" y2="368" class="edge"/>
+  <line x1="750" y1="290" x2="686" y2="368" class="edge"/>
+  <line x1="750" y1="290" x2="984" y2="368" class="edge"/>
+  <line x1="750" y1="290" x2="1284" y2="368" class="edge"/>
+  <text x="560" y="320" text-anchor="middle" class="al">查询 / 展示</text>
+
+  <!-- 邮件告警 -->
+  <line x1="500" y1="240" x2="422" y2="240" class="edge"/>
+  <text x="461" y="230" text-anchor="middle" class="al">告警邮件</text>
+  <rect x="120" y="195" width="300" height="90" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="270" y="223" text-anchor="middle" class="bt">邮件告警 (SMTP)</text>
+  <text x="270" y="245" text-anchor="middle" class="bl">probe_success &lt; 1 持续 1m 触发</text>
+  <text x="270" y="265" text-anchor="middle" class="bl">通知 yschen0925@sina.com</text>
+
+  <!-- 监控后端行 -->
+  <text x="1408" y="362" text-anchor="end" class="ns-label">monitoring 命名空间</text>
+
+  <rect x="260" y="370" width="250" height="120" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="385" y="396" text-anchor="middle" class="bt">Prometheus v3.5.0</text>
+  <text x="385" y="418" text-anchor="middle" class="bl">PVC 10Gi · :9090 · 保留 15 天</text>
+  <text x="385" y="436" text-anchor="middle" class="bl">抓取 cAdvisor / Pod 指标</text>
+  <text x="385" y="454" text-anchor="middle" class="bl">聚合 blackbox 探测指标</text>
+
+  <rect x="560" y="370" width="250" height="120" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="685" y="396" text-anchor="middle" class="bt">Tempo 2.9.0</text>
+  <text x="685" y="418" text-anchor="middle" class="bl">OTLP 接收 4317 / 4318</text>
+  <text x="685" y="436" text-anchor="middle" class="bl">查询 :3200</text>
+  <text x="685" y="454" text-anchor="middle" class="bl">分布式链路追踪</text>
+
+  <rect x="860" y="370" width="250" height="120" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="985" y="396" text-anchor="middle" class="bt">Loki 3.4.2 (PVC 10Gi)</text>
+  <text x="985" y="418" text-anchor="middle" class="bl">:3100 · OTLP 摄入 /otlp</text>
+  <text x="985" y="436" text-anchor="middle" class="bl">全集群日志存储</text>
+  <text x="985" y="454" text-anchor="middle" class="bl">LogQL 查询</text>
+
+  <rect x="1160" y="370" width="250" height="120" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="1285" y="396" text-anchor="middle" class="bt">Pyroscope 1.13.4 (PVC 10Gi)</text>
+  <text x="1285" y="418" text-anchor="middle" class="bl">:4040 持续 Profiling</text>
+  <text x="1285" y="436" text-anchor="middle" class="bl">接收 SDK 推送 profile</text>
+  <text x="1285" y="454" text-anchor="middle" class="bl">火焰图 / 函数级开销</text>
+
+  <!-- 应用与采集行 -->
+  <text x="935" y="552" text-anchor="end" class="ns-label">demo 命名空间</text>
+
+  <rect x="150" y="560" width="300" height="110" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="300" y="586" text-anchor="middle" class="bt">OpenTelemetry Collector</text>
+  <text x="300" y="606" text-anchor="middle" class="bl">DaemonSet · contrib 0.127.0</text>
+  <text x="300" y="624" text-anchor="middle" class="bl">filelog 采集 /var/log/pods</text>
+  <text x="300" y="642" text-anchor="middle" class="bl">CRI 解析 · K8s 元数据</text>
+
+  <rect x="560" y="560" width="380" height="110" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="750" y="586" text-anchor="middle" class="bt">demo-api v3 (Flask + OpenTelemetry)</text>
+  <text x="750" y="606" text-anchor="middle" class="bl">NodePort 30080 · GET /api/process</text>
+  <text x="750" y="624" text-anchor="middle" class="bl">内部调用 method_a + method_b</text>
+  <text x="750" y="642" text-anchor="middle" class="bl">JSON 结构化日志 · Pyroscope SDK</text>
+
+  <rect x="1160" y="560" width="250" height="110" rx="8" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5"/>
+  <text x="1285" y="586" text-anchor="middle" class="bt">Parca v0.22.0 (PVC 10Gi)</text>
+  <text x="1285" y="606" text-anchor="middle" class="bl">eBPF Profiling Server :7070</text>
+  <text x="1285" y="624" text-anchor="middle" class="bl">(agent 依赖旧内核, 已停用)</text>
+
+  <!-- 探测与数据行 -->
+  <rect x="150" y="730" width="300" height="100" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="300" y="756" text-anchor="middle" class="bt">Blackbox Exporter v0.27.0</text>
+  <text x="300" y="776" text-anchor="middle" class="bl">:9115 · http_2xx 模块</text>
+  <text x="300" y="794" text-anchor="middle" class="bl">HTTP 黑盒探测服务 /healthz</text>
+
+  <rect x="560" y="730" width="260" height="100" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="690" y="756" text-anchor="middle" class="bt">tushare-service</text>
+  <text x="690" y="776" text-anchor="middle" class="bl">RESTful API 服务</text>
+  <text x="690" y="794" text-anchor="middle" class="bl">健康检查 /healthz</text>
+
+  <rect x="860" y="730" width="250" height="100" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="985" y="756" text-anchor="middle" class="bt">tushare batch job</text>
+  <text x="985" y="776" text-anchor="middle" class="bl">tushare SDK 定时拉取</text>
+  <text x="985" y="794" text-anchor="middle" class="bl">A股日线行情数据</text>
+
+  <!-- 宿主机 PostgreSQL (集群外) -->
+  <rect x="1160" y="900" width="250" height="100" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.5" stroke-dasharray="7 4"/>
+  <text x="1285" y="926" text-anchor="middle" class="bt">宿主机 PostgreSQL</text>
+  <text x="1285" y="946" text-anchor="middle" class="bl">192.168.31.215:5432</text>
+  <text x="1285" y="964" text-anchor="middle" class="bl">库 tushare · 表 daily</text>
+
+  <!-- 数据链路箭头 -->
+  <!-- demo-api -> Tempo (OTLP traces) -->
+  <line x1="760" y1="560" x2="702" y2="492" class="edge"/>
+  <text x="778" y="528" class="al">OTLP traces (4318)</text>
+
+  <!-- demo-api -> Pyroscope (SDK 推送) -->
+  <line x1="940" y1="600" x2="1284" y2="492" class="edge"/>
+  <text x="1112" y="536" text-anchor="middle" class="al">CPU profile 推送 (每 10s)</text>
+
+  <!-- demo-api -> OTel Collector (容器日志落盘) -->
+  <line x1="560" y1="612" x2="452" y2="612" class="edge"/>
+  <text x="506" y="600" text-anchor="middle" class="al">容器日志落盘</text>
+
+  <!-- OTel Collector -> Loki (OTLP/HTTP logs) -->
+  <line x1="390" y1="560" x2="888" y2="492" class="edge"/>
+  <text x="639" y="516" text-anchor="middle" class="al">OTLP/HTTP logs (3100/otlp)</text>
+
+  <!-- Prometheus -> Blackbox (经左侧走廊) -->
+  <polyline points="260,458 110,458 110,780 148,780" class="edge"/>
+  <text x="118" y="505" class="al">GET /probe</text>
+
+  <!-- Blackbox -> demo-api -->
+  <line x1="428" y1="730" x2="640" y2="672" class="edge"/>
+  <text x="534" y="690" text-anchor="middle" class="al">GET /healthz</text>
+
+  <!-- Blackbox -> tushare-service -->
+  <line x1="452" y1="780" x2="558" y2="780" class="edge"/>
+  <text x="505" y="770" text-anchor="middle" class="al">/healthz</text>
+
+  <!-- tushare batch -> PostgreSQL -->
+  <polyline points="985,830 985,950 1158,950" class="edge"/>
+  <text x="1071" y="940" text-anchor="middle" class="al">写入日线数据</text>
+
+  <!-- PostgreSQL -> Grafana (跨网络数据源) -->
+  <polyline points="1410,950 1470,950 1470,240 1002,240" class="edge-dash"/>
+  <text x="1236" y="230" text-anchor="middle" class="al">SQL 查询 :5432 (跨网络)</text>
+
+  <!-- 图例 -->
+  <line x1="80" y1="1015" x2="120" y2="1015" stroke="#334155" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="130" y="1020" class="legend">集群内数据流</text>
+  <line x1="260" y1="1015" x2="300" y2="1015" stroke="#64748b" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="310" y="1020" class="legend">跨网络访问 (宿主机 / 集群外)</text>
+</svg>

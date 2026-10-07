@@ -1,0 +1,12 @@
+{
+  "name": "sre-observability-ui-backend",
+  "version": "1.0.0",
+  "description": "SRE 可观测性平台架构展示系统 - Node.js 后端",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

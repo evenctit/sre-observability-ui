@@ -1,0 +1,176 @@
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.mono {
+  font-family: Consolas, 'Courier New', monospace;
+}
+
+.loading-page,
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+  color: #64748b;
+}
+
+.error-page {
+  color: #dc2626;
+}
+
+/* 页头 */
+.header {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 28px 32px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.header p {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+/* 主体布局 */
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.card h2 {
+  font-size: 18px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* 架构图 */
+.diagram img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+/* 组件明细表格 */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #f8fafc;
+  color: #475569;
+  white-space: nowrap;
+}
+
+td.desc {
+  min-width: 320px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* 数据链路 */
+.flows {
+  list-style: none;
+}
+
+.flows li {
+  padding: 7px 0;
+  border-bottom: 1px dashed #e2e8f0;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.flows li:last-child {
+  border-bottom: none;
+}
+
+.flows .arrow {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.flow-label {
+  color: #64748b;
+}
+
+/* 访问入口 */
+.access-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.access-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #f8fafc;
+}
+
+.access-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.access-url {
+  color: #2563eb;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.access-desc {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* 页脚 */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 16px 0 24px;
+}
